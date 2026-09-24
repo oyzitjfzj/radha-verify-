@@ -1,2 +1,2 @@
-phase=GREEN-task-2-body-map
-private_sha256=cfece89d13a0cf163f37813c05b0309f49774b53c3c320abd2fef6fb5bff8e06
+phase=GREEN-task-2-format-exact
+private_sha256=22fa45f45cebc2a223873edeede64354eed37b7d2f5a3039ec7d1d394573d566
