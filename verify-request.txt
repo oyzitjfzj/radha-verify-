@@ -1,2 +1,2 @@
-phase=GREEN-task-3-artifacts
-private_sha256=781e75a32c44fb4c9f663522262e54fce08b4730ca39122a1865f14005603002
+phase=GREEN-task-3-format-exact
+private_sha256=7254c002c0ef4ce535d14635382f10bb9bd32bcd8b12ab2956305b1749de32c3
