@@ -1,2 +1,2 @@
-phase=GREEN-task-3-format-exact
-private_sha256=7254c002c0ef4ce535d14635382f10bb9bd32bcd8b12ab2956305b1749de32c3
+phase=RED-task-4-capabilities
+private_sha256=8a6f2e1b5cee8682a03bc6a10da4a053f40a85ac79a8208221b247deab6eeea1
