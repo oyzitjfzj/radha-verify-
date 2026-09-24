@@ -1,3 +1,3 @@
-phase=RPC_SESSION_BUDGET_RED
+phase=RPC_SESSION_BUDGET_GREEN
 private_branch=work/birth-substrate
-private_sha256=9434464c6bddc66b1f4527176c6df562a9a9e65eed0ea86de0cb33000d066ece
+private_sha256=d362854c1c7b1cf89b75dccae1cd75ed22c8222f308219aaada9029a62a0d0d2
