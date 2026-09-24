@@ -1,2 +1,3 @@
 phase=LIVE_SUBPROCESS_ENV_PROBE_RED
+private_branch=probe/live-process-env-red
 private_sha256=170b2f362132a336754478c715bda93237ce55341ce151dac13f594daf6ebef8
