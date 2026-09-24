@@ -1,2 +1,2 @@
-phase=GREEN-task-5-candidates
-private_sha256=8560053a8fcbc7905dd3b9a53296022f9215587e59d30bbe7795d1aa6105f9aa
+phase=GREEN-task-5-format-exact
+private_sha256=c8aea791376c1a9243078740b78ef62621afb5da125e619a392df28e1c811913
