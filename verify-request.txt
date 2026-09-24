@@ -1,2 +1,2 @@
-phase=GREEN-task-5-format-exact
-private_sha256=c8aea791376c1a9243078740b78ef62621afb5da125e619a392df28e1c811913
+phase=TASK6_RED
+private_branch=work/birth-substrate
