@@ -1,3 +1,2 @@
-phase=FINAL_REVIEW_FIXES_RED
-private_branch=work/birth-substrate
-private_sha256=8ba5e275b2f2f40a73c36c85a950e050bdbd7e014f1884b94861e40aae980711
+phase=RED_AFTER_PROTOCOL_TYPES
+private_sha256=6c7522a405f101a5a2768c72ee2b3e882d5a25101d5ed78a8f2ee04e1d8d7a98
