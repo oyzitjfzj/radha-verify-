@@ -1,3 +1,3 @@
-phase=MODEL_HTTP_GREEN_CANDIDATE
+phase=MODEL_HTTP_GREEN_2
 private_branch=work/birth-substrate
-private_sha256=32f1218176b2501409607bbe3bd910a45bc0ec8adbf564a08a0dbfbf4f839d33
+private_sha256=ff3fe35b48cdefc1226ee817052e8fd9085189a05af604c2a2dc9c818518fccd
