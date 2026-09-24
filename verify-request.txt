@@ -1,3 +1,3 @@
-phase=BOUNDED_WASI_DUPLEX_HARDENED
+phase=LIVE_SEED_DUPLEX_FINAL_CANDIDATE
 private_branch=work/birth-substrate
 private_sha256=797e1f1ac4b0fa592f1b0d4faad0a793e68df4507aa65f5a2a21d18382bc9e53
