@@ -12,28 +12,54 @@ jobs:
   verify:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    env:
+      RADHA_PRIVATE_REPOSITORY: ${{ secrets.RADHA_PRIVATE_REPOSITORY }}
+      RADHA_PRIVATE_READ_TOKEN: ${{ secrets.RADHA_PRIVATE_READ_TOKEN }}
+      LAS_PRIVATE_REPOSITORY: ${{ secrets.LAS_PRIVATE_REPOSITORY }}
+      LAS_PRIVATE_READ_TOKEN: ${{ secrets.LAS_PRIVATE_READ_TOKEN }}
     steps:
       - name: RADHA repository secret present
-        if: ${{ secrets.RADHA_PRIVATE_REPOSITORY != '' }}
+        if: ${{ env.RADHA_PRIVATE_REPOSITORY != '' }}
         run: "true"
 
       - name: RADHA token secret present
-        if: ${{ secrets.RADHA_PRIVATE_READ_TOKEN != '' }}
+        if: ${{ env.RADHA_PRIVATE_READ_TOKEN != '' }}
         run: "true"
 
       - name: Legacy repository secret present
-        if: ${{ secrets.LAS_PRIVATE_REPOSITORY != '' }}
+        if: ${{ env.LAS_PRIVATE_REPOSITORY != '' }}
         run: "true"
 
       - name: Legacy token secret present
-        if: ${{ secrets.LAS_PRIVATE_READ_TOKEN != '' }}
+        if: ${{ env.LAS_PRIVATE_READ_TOKEN != '' }}
         run: "true"
+
+      - name: Resolve private bridge inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="${RADHA_PRIVATE_REPOSITORY:-${LAS_PRIVATE_REPOSITORY:-}}"
+          token="${RADHA_PRIVATE_READ_TOKEN:-${LAS_PRIVATE_READ_TOKEN:-}}"
+          if [ -z "$repo" ]; then
+            echo "RADHA_BRIDGE_REPOSITORY=missing"
+            exit 20
+          fi
+          if [ -z "$token" ]; then
+            echo "RADHA_BRIDGE_TOKEN=missing"
+            exit 21
+          fi
+          echo "RADHA_BRIDGE_REPOSITORY=present"
+          echo "RADHA_BRIDGE_TOKEN=present"
+          echo "private_repo=$repo" >> "$GITHUB_OUTPUT"
+          echo "::add-mask::$token"
+          echo "private_token=$token" >> "$GITHUB_OUTPUT"
+        id: bridge
 
       - name: Checkout exact private development head
         uses: actions/checkout@v4
         with:
-          repository: ${{ secrets.RADHA_PRIVATE_REPOSITORY || secrets.LAS_PRIVATE_REPOSITORY }}
-          token: ${{ secrets.RADHA_PRIVATE_READ_TOKEN || secrets.LAS_PRIVATE_READ_TOKEN }}
+          repository: ${{ steps.bridge.outputs.private_repo }}
+          token: ${{ steps.bridge.outputs.private_token }}
           ref: work/birth-substrate
           path: private
           persist-credentials: false
