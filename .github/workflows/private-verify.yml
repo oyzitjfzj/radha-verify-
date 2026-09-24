@@ -55,9 +55,14 @@ jobs:
             echo "RADHA_BRIDGE_TOKEN=missing"
             exit 21
           fi
+          private_ref="$(sed -n 's/^private_branch=//p' relay/verify-request.txt | tail -n 1)"
+          if [ -z "$private_ref" ]; then
+            private_ref="work/birth-substrate"
+          fi
           echo "RADHA_BRIDGE_REPOSITORY=present"
           echo "RADHA_BRIDGE_TOKEN=present"
           echo "private_repo=$repo" >> "$GITHUB_OUTPUT"
+          echo "private_ref=$private_ref" >> "$GITHUB_OUTPUT"
           echo "::add-mask::$token"
           echo "private_token=$token" >> "$GITHUB_OUTPUT"
         id: bridge
@@ -67,7 +72,7 @@ jobs:
         with:
           repository: ${{ steps.bridge.outputs.private_repo }}
           token: ${{ steps.bridge.outputs.private_token }}
-          ref: work/birth-substrate
+          ref: ${{ steps.bridge.outputs.private_ref }}
           path: private
           persist-credentials: false
           fetch-depth: 1
