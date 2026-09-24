@@ -1,2 +1,2 @@
-phase=RED-task-4-capabilities
-private_sha256=8a6f2e1b5cee8682a03bc6a10da4a053f40a85ac79a8208221b247deab6eeea1
+phase=RED-task-4-clean
+private_sha256=e983e026a78600c9b4e67fd2eed0f86006cec1992c2579b2ab097753dad7a5b4
