@@ -1,3 +1,3 @@
-phase=ARTIFACT_INTEGRITY_FINAL_GREEN_2
+phase=ARTIFACT_CAPABILITY_RED
 private_branch=work/birth-substrate
-private_sha256=c95a205736daa25aabfdba8c8d32fc6fa9a9c36541231a4b78d7cd562d8a87ad
+private_sha256=ca88a7a04064f1aed6fc443d9e328c301bbebf955c65c2dca5f6889ede34bb6e
