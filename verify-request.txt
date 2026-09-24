@@ -1,3 +1,3 @@
-phase=SHARED_HTTP_JSON_GREEN
+phase=MODEL_HTTP_SHARED_BOUNDARY
 private_branch=work/birth-substrate
-private_sha256=ae9b328ec9e0761c06731d4b625de0193dfd62406e2bf4cd2dcb82593968698a
+private_sha256=d56f122b6aca4b85cdcb9a061376b3e36ffc45ba96e0d0b7c35683bf773535d6
