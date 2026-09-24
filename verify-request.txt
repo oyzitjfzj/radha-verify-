@@ -1,2 +1,2 @@
-phase=RED
-private_sha256=bdf1cf44ab2bdce43762104d75a07ccc15e4c25bd0134ca7983a66f9d2237e20
+phase=GREEN-task-1
+private_sha256=1666c95a8c8ab1140894cae0dbc47f054e1bc95a35e16dacfc431a03ef4d5e15
