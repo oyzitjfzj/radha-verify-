@@ -16,8 +16,8 @@ jobs:
       - name: Checkout exact private development head
         uses: actions/checkout@v4
         with:
-          repository: ${{ secrets.RADHA_PRIVATE_REPOSITORY }}
-          token: ${{ secrets.RADHA_PRIVATE_READ_TOKEN }}
+          repository: ${{ secrets.RADHA_PRIVATE_REPOSITORY || secrets.LAS_PRIVATE_REPOSITORY }}
+          token: ${{ secrets.RADHA_PRIVATE_READ_TOKEN || secrets.LAS_PRIVATE_READ_TOKEN }}
           ref: work/birth-substrate
           path: private
           persist-credentials: false
