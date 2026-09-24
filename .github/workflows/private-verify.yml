@@ -133,6 +133,34 @@ jobs:
           cd private/invent_radha
           cargo +1.98.1 clippy --workspace --all-targets -- -D warnings >"$RUNNER_TEMP/radha-clippy.log" 2>&1
 
+      - name: Build encrypted formatter diagnostic
+        if: ${{ steps.fmt.outcome == 'failure' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          (
+            cd private/invent_radha
+            cargo +1.98.1 fmt --all
+          )
+          git -C private diff --name-only -- '*.rs' >"$RUNNER_TEMP/radha-format-paths.txt"
+          if [ ! -s "$RUNNER_TEMP/radha-format-paths.txt" ]; then
+            echo "RADHA_FORMAT_DIAGNOSTIC=empty"
+            exit 40
+          fi
+          tar -C private -czf "$RUNNER_TEMP/radha-formatted.tar.gz" -T "$RUNNER_TEMP/radha-format-paths.txt"
+          openssl cms -encrypt -binary -aes256             -recip relay/diagnostics/public-cert.pem             -in "$RUNNER_TEMP/radha-formatted.tar.gz"             -outform DER             -out "$RUNNER_TEMP/radha-formatted.p7m"
+          rm -f "$RUNNER_TEMP/radha-formatted.tar.gz" "$RUNNER_TEMP/radha-format-paths.txt"
+          sha256sum "$RUNNER_TEMP/radha-formatted.p7m" | awk '{print "RADHA_FORMAT_CIPHERTEXT_SHA256="$1}'
+
+      - name: Upload encrypted formatter diagnostic
+        if: ${{ steps.fmt.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: radha-private-format-diagnostic
+          path: ${{ runner.temp }}/radha-formatted.p7m
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Marker - format failed
         if: ${{ steps.fmt.outcome == 'failure' }}
         run: "true"
