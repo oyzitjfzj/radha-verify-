@@ -1,3 +1,3 @@
-phase=CAPABILITY_RPC_CLIENT_FINAL_GREEN
+phase=MODEL_HTTP_RED
 private_branch=work/birth-substrate
-private_sha256=36ee110458d020bb99a75400ea764f3e88dfc25ff1609c6c8baccb996993a039
+private_sha256=0072769a21e55bba8003b9fc0e9a863dc63304bb240e4fe35b45598bf85d09c8
