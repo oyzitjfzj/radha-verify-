@@ -1,3 +1,3 @@
-phase=LIVE_SEED_MECHANICAL_GREEN_CANDIDATE
+phase=LIVE_SEED_DUPLEX_LATEST
 private_branch=work/birth-substrate
 private_sha256=9acf3772318c746f0d2e709a2fac3b189df625057178d22c225d06420008fef0
