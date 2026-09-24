@@ -1,3 +1,2 @@
-phase=LIVE_BODY_HOST_RED
-private_branch=work/birth-substrate
-private_sha256=02b440c64c187ae19319a0d0aee9c9c3a832a4dc1abcd0eabb451b226cd5b8b1
+phase=LIVE_BODY_HOST_GREEN_CANDIDATE
+private_sha256=b3d37256dbfa6eaab9d8aaf79bbaafad2e381e086609221cc43f04ef50b7e361
