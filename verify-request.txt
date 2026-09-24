@@ -1,3 +1,3 @@
-phase=RESEARCH_HTTP_RED_BOUNDED_FIXTURE
+phase=RESEARCH_HTTP_GREEN
 private_branch=work/birth-substrate
-private_sha256=818ed55affe30609a6408a47fff7fd4c2b77d0a8317ae39682171dc51050c57f
+private_sha256=84b2b492dce099caa4a5f519cec471c83069932a7e4ca78d759608583d564b79
