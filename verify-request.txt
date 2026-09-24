@@ -1,2 +1,2 @@
-phase=RED-task-5-clean
-private_sha256=f3ccc015fbc560c591a8ab767698cdba8f56804d7ddb3a6084d6dafe14a447ee
+phase=GREEN-task-5-candidates
+private_sha256=8560053a8fcbc7905dd3b9a53296022f9215587e59d30bbe7795d1aa6105f9aa
