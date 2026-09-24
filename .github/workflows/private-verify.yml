@@ -1,0 +1,65 @@
+name: RADHA Private Verification Relay
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact private development head
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.RADHA_PRIVATE_REPOSITORY }}
+          token: ${{ secrets.RADHA_PRIVATE_READ_TOKEN }}
+          ref: work/birth-substrate
+          path: private
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Record privacy-safe revision proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd private
+          sha="$(git rev-parse HEAD)"
+          proof="$(printf '%s' "$sha" | sha256sum | awk '{print $1}')"
+          echo "RADHA_PRIVATE_SHA256=$proof"
+
+      - name: Install pinned Rust toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.98.1 --profile minimal --component rustfmt --component clippy
+          rustup override set 1.98.1 --path private
+          rustc +1.98.1 --version
+          cargo +1.98.1 --version
+
+      - name: Verify private workspace
+        shell: bash
+        run: |
+          set +e
+          cd private/invent_radha
+          cargo +1.98.1 fmt --all -- --check >"$RUNNER_TEMP/radha-fmt.log" 2>&1
+          fmt_rc=$?
+          cargo +1.98.1 test --workspace --all-targets >"$RUNNER_TEMP/radha-test.log" 2>&1
+          test_rc=$?
+          cargo +1.98.1 clippy --workspace --all-targets -- -D warnings >"$RUNNER_TEMP/radha-clippy.log" 2>&1
+          clippy_rc=$?
+          set -e
+
+          echo "RADHA_FMT_RC=$fmt_rc"
+          echo "RADHA_TEST_RC=$test_rc"
+          echo "RADHA_CLIPPY_RC=$clippy_rc"
+
+          if [ "$fmt_rc" -eq 0 ] && [ "$test_rc" -eq 0 ] && [ "$clippy_rc" -eq 0 ]; then
+            echo "RADHA_VERIFY_RESULT=PASS"
+            exit 0
+          fi
+
+          echo "RADHA_VERIFY_RESULT=FAIL"
+          exit 1
