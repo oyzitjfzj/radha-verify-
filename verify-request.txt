@@ -1,3 +1,3 @@
-phase=LIVE_SEED_DUPLEX_FORMATTED_HEAD
+phase=SHARED_HTTP_JSON_RED
 private_branch=work/birth-substrate
-private_sha256=bb5687f02f7a17589460ec8aa51bc119a665498c47c0ec26b0039ff7c5d95e89
+private_sha256=4fedd30f3a70d17da5c1af4b3728bce1df0c95404ad2953fde3c90c801e03e60
