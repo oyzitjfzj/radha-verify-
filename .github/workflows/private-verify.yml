@@ -133,6 +133,36 @@ jobs:
           cd private/invent_radha
           cargo +1.98.1 clippy --workspace --all-targets -- -D warnings >"$RUNNER_TEMP/radha-clippy.log" 2>&1
 
+      - name: Build encrypted gate diagnostic
+        if: ${{ steps.fmt.outcome == 'failure' || steps.check.outcome == 'failure' || steps.tests.outcome == 'failure' || steps.clippy.outcome == 'failure' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/radha-gate-diagnostic"
+          for name in fmt check test clippy; do
+            src="$RUNNER_TEMP/radha-${name}.log"
+            if [ -f "$src" ]; then
+              cp "$src" "$RUNNER_TEMP/radha-gate-diagnostic/${name}.log"
+            fi
+          done
+          tar -C "$RUNNER_TEMP/radha-gate-diagnostic" -czf "$RUNNER_TEMP/radha-gate-diagnostic.tar.gz" .
+          openssl cms -encrypt -binary -aes256 \
+            -recip relay/diagnostics/public-cert.pem \
+            -in "$RUNNER_TEMP/radha-gate-diagnostic.tar.gz" \
+            -outform DER \
+            -out "$RUNNER_TEMP/radha-gate-diagnostic.p7m"
+          rm -rf "$RUNNER_TEMP/radha-gate-diagnostic" "$RUNNER_TEMP/radha-gate-diagnostic.tar.gz"
+          sha256sum "$RUNNER_TEMP/radha-gate-diagnostic.p7m" | awk '{print "RADHA_GATE_DIAGNOSTIC_SHA256="$1}'
+
+      - name: Upload encrypted gate diagnostic
+        if: ${{ steps.fmt.outcome == 'failure' || steps.check.outcome == 'failure' || steps.tests.outcome == 'failure' || steps.clippy.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: radha-private-gate-diagnostic
+          path: ${{ runner.temp }}/radha-gate-diagnostic.p7m
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Build encrypted formatter diagnostic
         if: ${{ steps.fmt.outcome == 'failure' }}
         shell: bash
