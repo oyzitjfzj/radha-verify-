@@ -1,3 +1,3 @@
-phase=RESEARCH_HTTP_GREEN
+phase=CANDIDATE_WORKSPACE_RED
 private_branch=work/birth-substrate
-private_sha256=84b2b492dce099caa4a5f519cec471c83069932a7e4ca78d759608583d564b79
+private_sha256=25eeb97e678b8602c92623466241b68234fdcacb2b72573affa8ebe58fb723e2
