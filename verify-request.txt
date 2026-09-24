@@ -1,3 +1,3 @@
-phase=TASK7_RED
+phase=TASK7_GREEN
 private_branch=work/birth-substrate
-private_sha256=014134db51997261a187806cf57444f7019322dc06acaf76f9dab45a4618f837
+private_sha256=a752d871175f438cc75e037e55810b6907b1a39f2660e2662ab64e40e3747b10
