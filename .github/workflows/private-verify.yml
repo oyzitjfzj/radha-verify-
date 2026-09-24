@@ -18,6 +18,13 @@ jobs:
       LAS_PRIVATE_REPOSITORY: ${{ secrets.LAS_PRIVATE_REPOSITORY }}
       LAS_PRIVATE_READ_TOKEN: ${{ secrets.LAS_PRIVATE_READ_TOKEN }}
     steps:
+      - name: Checkout relay metadata
+        uses: actions/checkout@v4
+        with:
+          path: relay
+          persist-credentials: false
+          fetch-depth: 1
+
       - name: RADHA repository secret present
         if: ${{ env.RADHA_PRIVATE_REPOSITORY != '' }}
         run: "true"
@@ -65,13 +72,24 @@ jobs:
           persist-credentials: false
           fetch-depth: 1
 
-      - name: Record privacy-safe revision proof
+      - name: Record and bind privacy-safe revision proof
         shell: bash
         run: |
           set -euo pipefail
           cd private
           sha="$(git rev-parse HEAD)"
           proof="$(printf '%s' "$sha" | sha256sum | awk '{print $1}')"
+          cd ..
+          expected="$(sed -n 's/^private_sha256=//p' relay/verify-request.txt | tail -n 1)"
+          if [ -z "$expected" ]; then
+            echo "RADHA_REVISION_BINDING=missing"
+            exit 30
+          fi
+          if [ "$proof" != "$expected" ]; then
+            echo "RADHA_REVISION_BINDING=mismatch"
+            exit 31
+          fi
+          echo "RADHA_REVISION_BINDING=match"
           echo "RADHA_PRIVATE_SHA256=$proof"
 
       - name: Install pinned Rust toolchain
