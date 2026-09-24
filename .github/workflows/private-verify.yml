@@ -115,14 +115,25 @@ jobs:
           cd private/invent_radha
           cargo +1.98.1 clippy --workspace --all-targets -- -D warnings >"$RUNNER_TEMP/radha-clippy.log" 2>&1
 
+      - name: Marker - format failed
+        if: ${{ steps.fmt.outcome == 'failure' }}
+        run: "true"
+
+      - name: Marker - compile failed
+        if: ${{ steps.check.outcome == 'failure' }}
+        run: "true"
+
+      - name: Marker - tests failed
+        if: ${{ steps.tests.outcome == 'failure' }}
+        run: "true"
+
+      - name: Marker - clippy failed
+        if: ${{ steps.clippy.outcome == 'failure' }}
+        run: "true"
+
       - name: Final privacy-safe gate
         shell: bash
         run: |
-          echo "RADHA_FMT=${{ steps.fmt.outcome }}"
-          echo "RADHA_CHECK=${{ steps.check.outcome }}"
-          echo "RADHA_TESTS=${{ steps.tests.outcome }}"
-          echo "RADHA_CLIPPY=${{ steps.clippy.outcome }}"
-
           if [ "${{ steps.fmt.outcome }}" = "success" ] &&
              [ "${{ steps.check.outcome }}" = "success" ] &&
              [ "${{ steps.tests.outcome }}" = "success" ] &&
@@ -130,6 +141,5 @@ jobs:
             echo "RADHA_VERIFY_RESULT=PASS"
             exit 0
           fi
-
           echo "RADHA_VERIFY_RESULT=FAIL"
           exit 1
