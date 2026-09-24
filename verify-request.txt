@@ -1,3 +1,3 @@
-phase=BOUNDED_WASI_DUPLEX_RED
+phase=MODEL_DRIVEN_LIVE_SEED_RED
 private_branch=work/birth-substrate
-private_sha256=65b7a9228e603a2b30331817a77328c633976bbcd82b2878e72ff7d94f444787
+private_sha256=7ccda3f9aadb8c3d051937f0e276e6d1c04e9a43ea18166e05626068e8a83dfb
