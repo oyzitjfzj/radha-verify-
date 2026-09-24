@@ -1,3 +1,3 @@
-phase=CANDIDATE_EXECUTION_GREEN_2
+phase=CANDIDATE_EXECUTION_GREEN_3
 private_branch=work/birth-substrate
-private_sha256=5b97f9b0e88209db52c5fdc86d02c12ff1710917f016fe4f1faf182a35898051
+private_sha256=d281c978706dec9d9a00c48bf4ab57e5e7e026fa80c81f4969709c54fcf05395
