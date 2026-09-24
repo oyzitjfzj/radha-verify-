@@ -1,6 +1,8 @@
 name: RADHA Private Verification Relay
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -39,24 +41,50 @@ jobs:
           rustc +1.98.1 --version
           cargo +1.98.1 --version
 
-      - name: Verify private workspace
+      - name: Format gate
+        id: fmt
+        continue-on-error: true
         shell: bash
         run: |
-          set +e
           cd private/invent_radha
           cargo +1.98.1 fmt --all -- --check >"$RUNNER_TEMP/radha-fmt.log" 2>&1
-          fmt_rc=$?
+
+      - name: Compile gate
+        id: check
+        continue-on-error: true
+        shell: bash
+        run: |
+          cd private/invent_radha
+          cargo +1.98.1 check --workspace --all-targets >"$RUNNER_TEMP/radha-check.log" 2>&1
+
+      - name: Test gate
+        id: tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          cd private/invent_radha
           cargo +1.98.1 test --workspace --all-targets >"$RUNNER_TEMP/radha-test.log" 2>&1
-          test_rc=$?
+
+      - name: Clippy gate
+        id: clippy
+        continue-on-error: true
+        shell: bash
+        run: |
+          cd private/invent_radha
           cargo +1.98.1 clippy --workspace --all-targets -- -D warnings >"$RUNNER_TEMP/radha-clippy.log" 2>&1
-          clippy_rc=$?
-          set -e
 
-          echo "RADHA_FMT_RC=$fmt_rc"
-          echo "RADHA_TEST_RC=$test_rc"
-          echo "RADHA_CLIPPY_RC=$clippy_rc"
+      - name: Final privacy-safe gate
+        shell: bash
+        run: |
+          echo "RADHA_FMT=${{ steps.fmt.outcome }}"
+          echo "RADHA_CHECK=${{ steps.check.outcome }}"
+          echo "RADHA_TESTS=${{ steps.tests.outcome }}"
+          echo "RADHA_CLIPPY=${{ steps.clippy.outcome }}"
 
-          if [ "$fmt_rc" -eq 0 ] && [ "$test_rc" -eq 0 ] && [ "$clippy_rc" -eq 0 ]; then
+          if [ "${{ steps.fmt.outcome }}" = "success" ] &&
+             [ "${{ steps.check.outcome }}" = "success" ] &&
+             [ "${{ steps.tests.outcome }}" = "success" ] &&
+             [ "${{ steps.clippy.outcome }}" = "success" ]; then
             echo "RADHA_VERIFY_RESULT=PASS"
             exit 0
           fi
