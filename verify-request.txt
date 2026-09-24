@@ -1,2 +1,2 @@
-phase=RED-task-3-formatted
-private_sha256=fadc3d76594b8c1fa562c87a8140bc2a44a29666546c734be6683fa6b5de3a9c
+phase=GREEN-task-3-artifacts
+private_sha256=781e75a32c44fb4c9f663522262e54fce08b4730ca39122a1865f14005603002
