@@ -1,3 +1,2 @@
-phase=VERIFIED_SNAPSHOT_READ_FROZEN
-private_branch=checkpoint/verified-snapshot-read-candidate
+phase=VERIFIED_SNAPSHOT_READ_EXACT_DIAGNOSTIC
 private_sha256=dbbd521fdc42dc07207a97d19cd00988f949ae641f3ba7668c063b7df2b37330
