@@ -1,3 +1,2 @@
-phase=RECOVERY_PREPARE_COMMIT_GREEN
-private_branch=verify/recovery-prepare-commit-green
+phase=RECOVERY_COMMIT_PROTOCOL_DIAGNOSTIC
 private_sha256=a1a1fd80e8071a43f28c1677261aaa96b396d82561730d7cc505cf7bf40e58fd
