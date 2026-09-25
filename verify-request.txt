@@ -1,3 +1,2 @@
-phase=CANDIDATE_CROSS_MANAGER_SNAPSHOT_RED
-private_branch=verify/candidate-cross-manager-snapshot-red
+phase=CROSS_MANAGER_SNAPSHOT_RED
 private_sha256=4a4ec2b4f9184e9a295547b6aa5b28d4cfed7dd91e8e1996df7c2689264eeae1
