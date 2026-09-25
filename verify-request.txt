@@ -1,3 +1,3 @@
-phase=LINEAGE_DAG_PINNED_DIAGNOSTIC
-private_branch=verify/lineage-dag-d786
-private_sha256=22f00218a9e5e889f5df8d005c8583e17809d5639ad8c1d74fea77ef82ef7fbf
+phase=LINEAGE_CROSS_MANAGER_RED
+private_branch=verify/lineage-cross-manager-red
+private_sha256=7266b1cfb24493483aa6951979b395ccd0d7a197116c75ffbccd19535f390c11
