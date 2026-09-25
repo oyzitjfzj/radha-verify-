@@ -1,2 +1,3 @@
-phase=VERIFIED_ACTIVE_BOOT_BYTES_FULL_GREEN
+phase=VERIFIED_ACTIVE_BYTES_EXACT_DIAGNOSTIC
+private_branch=checkpoint/verified-active-bytes-candidate
 private_sha256=5f7555760ca48856042e32685021a0630c052ea8d8b7a4069f1d769cc1bd4151
