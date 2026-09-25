@@ -1,3 +1,2 @@
-phase=VERIFIED_ACTIVE_BYTES_FINAL_GREEN
-private_branch=checkpoint/verified-active-bytes-final-green-candidate
+phase=SEAL_BOUND_BOOT_CURRENT_GREEN_CHECK
 private_sha256=2309cad5e0b1289fb847e1518cb2dde21f6aab133ee6bdfc50fbcf4059f5b12a
