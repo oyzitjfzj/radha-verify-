@@ -1,3 +1,3 @@
-phase=VERIFIED_ACTIVE_BYTES_FINAL
-private_branch=checkpoint/verified-active-bytes-final-candidate
-private_sha256=04175241b3b60e71f5ae9da0563b26e3dc1f05357f708f4da965e3d1ac020e2a
+phase=VERIFIED_ACTIVE_BYTES_FINAL_GREEN
+private_branch=checkpoint/verified-active-bytes-final-green-candidate
+private_sha256=2309cad5e0b1289fb847e1518cb2dde21f6aab133ee6bdfc50fbcf4059f5b12a
