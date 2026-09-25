@@ -207,6 +207,79 @@ jobs:
           )
           git -C private diff --name-only -- '*.rs' | sed 's#^#RADHA_FMT_PATH=#'
 
+      - name: Build privacy-safe diagnostic summary
+        if: ${{ steps.fmt.outcome == 'failure' || steps.check.outcome == 'failure' || steps.tests.outcome == 'failure' || steps.clippy.outcome == 'failure' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          summary="$RUNNER_TEMP/radha-public-diagnostic.txt"
+          : >"$summary"
+
+          if [ "${{ steps.fmt.outcome }}" = "failure" ]; then
+            echo "FORMAT=FAIL" >>"$summary"
+            (
+              cd private/invent_radha
+              cargo +1.98.1 fmt --all
+            )
+            git -C private diff --name-only -- '*.rs'               | sed 's#^#FORMAT_PATH=#' >>"$summary"
+          else
+            echo "FORMAT=PASS" >>"$summary"
+          fi
+
+          if [ "${{ steps.check.outcome }}" = "failure" ]; then
+            echo "CHECK=FAIL" >>"$summary"
+          else
+            echo "CHECK=PASS" >>"$summary"
+          fi
+
+          if [ "${{ steps.tests.outcome }}" = "failure" ]; then
+            echo "TESTS=FAIL" >>"$summary"
+          else
+            echo "TESTS=PASS" >>"$summary"
+          fi
+
+          if [ "${{ steps.clippy.outcome }}" = "failure" ]; then
+            echo "CLIPPY=FAIL" >>"$summary"
+            (
+              cd private/invent_radha
+              cargo +1.98.1 clippy --workspace --all-targets --message-format=json -- -D warnings                 2>/dev/null || true
+            ) | python3 -c '
+          import json, sys
+          seen = set()
+          for raw in sys.stdin:
+              try:
+                  msg = json.loads(raw)
+              except json.JSONDecodeError:
+                  continue
+              if msg.get("reason") != "compiler-message":
+                  continue
+              m = msg.get("message") or {}
+              if m.get("level") != "error":
+                  continue
+              code = (m.get("code") or {}).get("code") or "unknown"
+              spans = m.get("spans") or []
+              primary = next((s for s in spans if s.get("is_primary")), spans[0] if spans else {})
+              path = primary.get("file_name", "unknown")
+              line = primary.get("line_start", 0)
+              key = (code, path, line)
+              if key in seen:
+                  continue
+              seen.add(key)
+              print(f"CLIPPY_DIAGNOSTIC={code}|{path}|{line}")
+          ' >>"$summary"
+          else
+            echo "CLIPPY=PASS" >>"$summary"
+          fi
+
+      - name: Upload privacy-safe diagnostic summary
+        if: ${{ steps.fmt.outcome == 'failure' || steps.check.outcome == 'failure' || steps.tests.outcome == 'failure' || steps.clippy.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: radha-public-diagnostic-summary
+          path: ${{ runner.temp }}/radha-public-diagnostic.txt
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Marker - format failed
         if: ${{ steps.fmt.outcome == 'failure' }}
         run: "true"
