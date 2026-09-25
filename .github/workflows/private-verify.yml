@@ -128,7 +128,9 @@ jobs:
         shell: bash
         run: |
           cd private/invent_radha
-          cargo +1.98.1 test --workspace --all-targets >"$RUNNER_TEMP/radha-test.log" 2>&1
+          timeout --signal=TERM --kill-after=5s 300s \
+            cargo +1.98.1 test --workspace --all-targets \
+            >"$RUNNER_TEMP/radha-test.log" 2>&1
 
       - name: Clippy gate
         id: clippy
